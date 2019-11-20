@@ -11,7 +11,7 @@ const createCustomer = (request, response) => {
     bcrypt.hash(password_customer,SALT_I,function(err,hash){
         const password_hash = hash;
         if(err) return err;
-        pool.query('INSERT INTO customers (name_customer, email_customer,phone_customer,address_customer,point_customer,password_customer) VALUES ($1,$2,$3,$4,$5,$6)', [name_customer, email_customer,phone_customer,address_customer,point_customer,password_hash], (error, results) => {
+        pool.query('INSERT INTO customers (name_customer, email_customer,phone_customer,address_customer,point_customer,password_customer) VALUES ($1,$2,$3,$4,$5,$6) returning *', [name_customer, email_customer,phone_customer,address_customer,point_customer,password_hash], (error, results) => {
             if(error){
                 if (error.code === '23505') {
                     return(response.status(500).send({
@@ -21,16 +21,12 @@ const createCustomer = (request, response) => {
             }else{
                 response.status(200).send({
                     success: true,
+                    data : results.rows[0]
                 })
             }
         })
      })                   
 };
-
-const logoutUser = (request,response) =>{
-    const { email ,password} = request.body;
-}
-
 const loginCustomer = (request,response) => {
     const {email_customer,password_customer} = request.body;
     pool.query('SELECT password_customer AS cnt FROM customers WHERE email_customer = $1',[email_customer],function(err,data){
@@ -71,7 +67,18 @@ const getCustomers = (request, response) => {
       }
       response.status(200).json({data:results.rows})
     })
-  }
+}
+
+const getCustomerByIDCustomer = (request, response) => {
+    const id_customer = parseInt(request.params.id_customer)
+  
+    pool.query('SELECT * FROM customers WHERE id_customer = $1', [id_customer], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
 
 
 
@@ -79,5 +86,6 @@ const getCustomers = (request, response) => {
 module.exports = { 
     createCustomer,
     getCustomers,
-    loginCustomer
+    loginCustomer,
+    getCustomerByIDCustomer
 }

@@ -5,9 +5,10 @@ const cookieParser = require('cookie-parser')
 
 const app = express()
 const port = process.env.PORT | 3001;
-const {createUser,getUsers,loginUser} = require('./modules/user.js');
-const {createCustomer,getCustomers,loginCustomer} = require('./modules/customer.js');
+const {createUser,getUsers,loginUser,getUserByIDUser} = require('./modules/user.js');
+const {createCustomer,getCustomers,loginCustomer,getCustomerByIDCustomer} = require('./modules/customer.js');
 const {createProduct,deleteProduct,updateProduct,getProducts,getProductByIDProduct} = require('./modules/product.js');
+const {exchangeProduct} = require('./modules/transaction.js');
 
 
 
@@ -24,11 +25,14 @@ app.get('/', (request, response) => {
 app.post('/api/users/register',createUser)
 app.post('/api/users/login',loginUser)
 app.get('/api/users',getUsers)
+app.get('/api/users/:id_user',getUserByIDUser)
 
 ////CUSTOMER
 app.post('/api/customers/register',createCustomer)
 app.post('/api/customers/login',loginCustomer)
 app.get('/api/customers',getCustomers)
+app.get('/api/customers/:id_customer',getCustomerByIDCustomer)
+
 
 ////PRODUCT
 app.post('/api/product/add',createProduct)
@@ -38,6 +42,7 @@ app.get('/api/products/:id_product',getProductByIDProduct)
 app.get('/api/products',getProducts)
 
 ////TRANSACTION
+app.post('/api/transaction',exchangeProduct)
 
 
 

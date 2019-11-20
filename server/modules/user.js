@@ -10,7 +10,7 @@ const createUser = (request, response) => {
     bcrypt.hash(password,SALT_I,function(err,hash){
         const password_hash = hash;
         if(err) return err;
-        pool.query('INSERT INTO users (name, email,sdt,role,password,status) VALUES ($1,$2,$3,$4,$5,$6)', [name, email,sdt,role,password_hash,status], (error, results) => {
+        pool.query('INSERT INTO users (name, email,sdt,role,password,status) VALUES ($1,$2,$3,$4,$5,$6) returning *', [name, email,sdt,role,password_hash,status], (error, results) => {
             if(error){
                 if (error.code === '23505') {
                     return(response.status(500).send({
@@ -20,6 +20,7 @@ const createUser = (request, response) => {
             }else{
                 response.status(200).send({
                     success: true,
+                    data : results.rows[0]
                 })
             }
         })
@@ -65,13 +66,23 @@ const getUsers = (request, response) => {
       }
       response.status(200).json({data:results.rows})
     })
-  }
-
+}
+const getUserByIDUser = (request, response) => {
+    const id_user = parseInt(request.params.id_user)
+  
+    pool.query('SELECT * FROM users WHERE id_user = $1', [id_user], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
 
 
 
 module.exports = { 
     createUser,
     getUsers,
-    loginUser
+    loginUser,
+    getUserByIDUser
 }

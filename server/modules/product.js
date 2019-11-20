@@ -3,12 +3,13 @@ const {pool} = require('../dbsetup.js');
 const createProduct = (request, response) => {
     const { name_product, point_needed_product,hot_inweek_product,remaining_amount_product } = request.body;
    
-        pool.query('INSERT INTO products (name_product, point_needed_product,hot_inweek_product,remaining_amount_product) VALUES ($1,$2,$3,$4)', [name_product, point_needed_product,hot_inweek_product,remaining_amount_product], (error, results) => {
+        pool.query('INSERT INTO products (name_product, point_needed_product,hot_inweek_product,remaining_amount_product) VALUES ($1,$2,$3,$4) returning *', [name_product, point_needed_product,hot_inweek_product,remaining_amount_product], (error, results) => {
             if (error) {
               throw error
             }
             response.status(200).send({
                 success: true,
+                data : results.rows[0]
             })
         })
 };
