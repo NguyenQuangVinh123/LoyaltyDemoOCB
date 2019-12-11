@@ -13,11 +13,7 @@ class HotProducts extends React.Component {
   
   }
  
-  componentDidMount(){
-      
-  }
 
-  
   render() {
     var arr = [];
     var indexd = null
@@ -25,8 +21,6 @@ class HotProducts extends React.Component {
       if (value.hot_inweek_product === "1") {
         arr.push(value);
       }
-      
-     
     });
     return (
       

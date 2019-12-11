@@ -111,7 +111,6 @@ class LoginLayout extends React.Component {
 export default connect(
   state =>({
     customerData : getCustomerData(state),
-   
   }),{
     loginCustomer,
     clearUserData

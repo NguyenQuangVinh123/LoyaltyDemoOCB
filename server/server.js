@@ -22,12 +22,11 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage : storage})
-
-app.use(cors())
-app.use('/uploads',express.static("uploads"))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(cors())
 
+app.use('/uploads',express.static("uploads"))
 
 //Middlewares
 
@@ -53,7 +52,7 @@ app.post('/api/users/delete',deleteUser)
 
 ////CUSTOMER
 app.post('/api/customers/register',createCustomer)
-app.post('/api/customers/login',loginCustomer)
+app.post('/api/customers/loginCustomer',loginCustomer)
 app.get('/api/customers',getCustomers)
 app.get('/api/customers/:id_customer',getCustomerByIDCustomer)
 

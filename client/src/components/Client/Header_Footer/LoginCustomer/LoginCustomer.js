@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {  getCustomerData,isAPIRequestLoading } from '../../../../store/reducers/applicationReducer';
 import ActionTypes from '../../../../store/actions/actionTypes';
 import {loginCustomer} from '../../../../store/actions/appilcationActions';
-
+import axios from 'axios';
+import configs from '../../../../config/config';
 class LoginCustomer extends React.Component{
     constructor(props){
         super(props);
@@ -12,7 +13,7 @@ class LoginCustomer extends React.Component{
             password_customer : '',
         }
         this.changeHandel = this.changeHandel.bind(this)
-        this.loginCustomer = this.loginCustomer.bind(this)
+        this.loginABCXYZ = this.loginABCXYZ.bind(this)
 
     }
     changeHandel({email_customer = this.state.email_customer,password_customer = this.state.password_customer}){
@@ -20,8 +21,20 @@ class LoginCustomer extends React.Component{
             email_customer,password_customer
         })
     }
-    loginCustomer(){
+    loginABCXYZ(e){
+        console.log(e)
         const {email_customer,password_customer} = this.state;
+        // axios.post(`${configs.serverUrl}/api/customers/loginCustomer`,{
+        //     email_customer : email_customer,
+        //     password_customer :password_customer
+        // }).then(
+        //     response =>{
+        //         console.log(response)
+        //     }
+        // ).catch(
+        //     err => console.log(err)
+        // )
+        
         // const {loginCustomer} = this.props;
         this.props.loginCustomer && this.props.loginCustomer({
             email_customer,
@@ -74,7 +87,7 @@ class LoginCustomer extends React.Component{
                                 </div>
                             </div>
                             <div className="" style={{display: "flex",marginTop: "40px",justifyContent: "center",alignItems: "center"}}>
-                                <button type="submit" onClick={this.loginCustomer} className="btn btn-login">ĐĂNG NHẬP</button>
+                                <button  onClick={this.loginABCXYZ} className="btn btn-login">ĐĂNG NHẬP</button>
                             </div>
                             <div className="forgot-pass-mobile" ><a href="#">Quên mật khẩu?</a></div>
                         </form>

@@ -27,6 +27,7 @@ const createCustomer = (request, response) => {
         })
      })                   
 };
+
 const loginCustomer = (request,response) => {
     const {email_customer,password_customer} = request.body;
     pool.query('SELECT *  FROM customers WHERE email_customer = $1',[email_customer],function(err,data){
@@ -57,7 +58,7 @@ const loginCustomer = (request,response) => {
                 })
             }
         }
-    });     
+    });   
 };
 
 const getCustomers = (request, response) => {

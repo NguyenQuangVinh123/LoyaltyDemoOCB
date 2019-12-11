@@ -58,6 +58,7 @@ class SoonProduct extends React.Component {
     
   }
   componentDidMount() {
+    console.log('Soon Producg')
     this.refreshPage()
   }
   refreshPage() {

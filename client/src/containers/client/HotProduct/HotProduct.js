@@ -93,6 +93,7 @@ class HotProduct extends React.Component{
         // var test = $("#swiper-wrapper1 > .swiper-slide-visible").last();
         // test.addClass('highlight')
         this.refresh()
+        console.log('HotPRoduct')
        
        }
        refresh(){

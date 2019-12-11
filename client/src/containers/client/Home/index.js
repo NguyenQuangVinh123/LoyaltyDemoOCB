@@ -19,6 +19,7 @@ class HomePage extends Component{
         
         this.props.getHotProduct && this.props.getHotProduct({
             onSuccess : (response) =>{
+                console.log(response)
                 this.setState({
                     listArray : response.data.data
                 })
@@ -29,9 +30,6 @@ class HomePage extends Component{
     render(){
         const {listArray} = this.state;
         return(
-           
-           
-    
             <Layout>
                  <div className='content' style={{position: "relative"}}>  
                     <Switch>

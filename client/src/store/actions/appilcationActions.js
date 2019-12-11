@@ -41,10 +41,7 @@ const login = (payload) => ({
 // LOGIN CUSTOMER
 const loginCustomer = (payload) => ({
     type: ActionTypes.LOGIN_CUSTOMER,
-    payload: {
-        ...payload,
-        api : Api.loginCustomer
-    }
+    payload: payload,
 });
 
 // GET HOT PRODUCT

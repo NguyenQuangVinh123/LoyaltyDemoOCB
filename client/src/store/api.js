@@ -5,18 +5,16 @@ const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 const cancelAllRequests = () => source.cancel('');
 
-const makeHttpRequest = ({ method = 'get', url , bodyData = {} },header = {}) => {
-    const token = get(bodyData, 'token', '');
-    const headers = header;
+const makeHttpRequest = ({ method = 'get', url , bodyData = {}  }) => {
+    // const token = get(bodyData, 'token', '');
     return axios({
         url: url,
         method,
-        headers: token ? {
-            ...headers,
-            "Authorization": `Bearer ${token}`,
-        } : headers,
-        data: omit(bodyData, ['token']),
-        cancelToken: source.token
+        header : {
+            "Content-Type" : "application/json"
+        },
+        data: omit(bodyData),
+        // cancelToken: source.token
     });
 };
 const getAPI = ({ url }) => {
@@ -39,13 +37,13 @@ const login = ({ email, password }) => {
 
 const loginCustomer = ({email_customer,password_customer}) => {
     return postAPI({
-        url: `${configs.serverUrl}/api/customers/login`,
+        url: `${configs.serverUrl}/api/customers/loginCustomer`,
         bodyData :{
             email_customer,
-            password_customer
+            password_customer,
         }
     })
-}
+};
 
 const transactionItem = ({ id_product,id_customer,total_point,quantity}) => {
     return postAPI({

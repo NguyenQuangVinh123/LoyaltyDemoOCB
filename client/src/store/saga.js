@@ -11,7 +11,7 @@ function* login(action) {
        yield put(setRequestPending(action.type));
        // Call API to get response
        const response = yield call(API.login, action.payload);
-       if (response.status === 200 ) {
+       if (response.status === 200) {
           // Request success
           yield put(setRequestSuccess({
              type: action.type,
@@ -32,16 +32,16 @@ function* login(action) {
     } catch (e) {
        yield onRequestFailed(action, 'Vui lòng kiểm tra email/password');
     }
-}
+};
 
 // Login Customer
 function* loginCustomer(action) {
    try {
       // Request pending
+      yield put(setRequestPending(action.type));
       // Call API to get response
       const response = yield call(API.loginCustomer, action.payload);
-      console.log(response)
-      if (response.status === 200 ) {
+      if (response.status === 200) {
          // Request success
          yield put(setRequestSuccess({
             type: action.type,
@@ -134,8 +134,6 @@ function* mySaga() {
     yield takeLatest(ActionTypes.GET_HOT_PRODUCT, callAPI);
     yield takeLatest(ActionTypes.TRANSACTION, callAPI);
     yield takeLatest(ActionTypes.CLEAR_USER_DATA, logOut);
-
-
 
 }
 

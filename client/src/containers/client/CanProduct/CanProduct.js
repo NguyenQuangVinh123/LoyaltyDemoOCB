@@ -97,6 +97,7 @@ class CanProduct extends React.Component{
           }
 
        componentDidMount(){
+           console.log('Can Product')
             this.refreshPage()
        }
        refreshPage(){

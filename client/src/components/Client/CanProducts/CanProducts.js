@@ -15,6 +15,7 @@ class CanProducts extends React.Component {
         }
     }
     componentDidMount(){
+        console.log('CanProducts')
         var arr = []
         this.props.listArray.map(value =>{
             if(this.props.customerData){
