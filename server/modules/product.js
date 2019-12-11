@@ -1,9 +1,10 @@
 const {pool} = require('../dbsetup.js');
 
 const createProduct = (request, response) => {
-    const { name_product, point_needed_product,hot_inweek_product,remaining_amount_product } = request.body;
-   
-        pool.query('INSERT INTO products (name_product, point_needed_product,hot_inweek_product,remaining_amount_product) VALUES ($1,$2,$3,$4) returning *', [name_product, point_needed_product,hot_inweek_product,remaining_amount_product], (error, results) => {
+     const image = request.file.path;
+    const { name_product, point_needed_product,hot_inweek_product,remaining_amount_product} = request.body;
+        pool.query('INSERT INTO products (name_product, point_needed_product,hot_inweek_product,remaining_amount_product,image) VALUES ($1,$2,$3,$4,$5) returning *', 
+        [name_product, point_needed_product,hot_inweek_product,remaining_amount_product,image], (error, results) => {
             if (error) {
               throw error
             }
@@ -25,22 +26,45 @@ const deleteProduct = (request,response) => {
 };
 
 const updateProduct = (request,response) => {
-    const {name_product, point_needed_product,hot_inweek_product , id_product,remaining_amount_product,status} = request.body;
-    if(Object.keys(request.body).length < 6){
-        response.status(400).send({
-            errorCode : 'Some field is missing'
-        })
-    }else{
-        pool.query(`UPDATE products
-        SET name_product= $1,point_needed_product=$2,hot_inweek_product=$3,remaining_amount_product= $4,status = $5
-        WHERE id_product=$6 returning *`,[name_product, point_needed_product,hot_inweek_product ,remaining_amount_product,status,id_product],function(err,data){
-            if(err) throw err;
-            response.status(200).send({
-                success: true,
-                data : data.rows[0]
+    const requests = request.body.changeImage
+    
+    if(requests === "true"){
+        const image = request.file.path;
+        const {name_product, point_needed_product,hot_inweek_product , id_product,remaining_amount_product,status} = request.body;
+        if(Object.keys(request.body).length < 5){
+            response.status(400).send({
+                errorCode : 'Some field is missing'
             })
-        })
+        }else{
+            pool.query(`UPDATE products
+            SET name_product= $1,point_needed_product=$2,hot_inweek_product=$3,remaining_amount_product= $4,status = $5,image= $6
+            WHERE id_product=$7 returning *`,[name_product, point_needed_product,hot_inweek_product ,remaining_amount_product,status,image,id_product],function(err,data){
+                if(err) throw err;
+                response.status(200).send({
+                    success: true,
+                    data : data.rows[0]
+                })
+            })
+        }
+    }else{
+        const {name_product, point_needed_product,hot_inweek_product , id_product,remaining_amount_product,status} = request.body;
+        if(Object.keys(request.body).length < 4){
+            response.status(400).send({
+                errorCode : 'Some field is missing'
+            })
+        }else{
+            pool.query(`UPDATE products
+            SET name_product= $1,point_needed_product=$2,hot_inweek_product=$3,remaining_amount_product= $4,status = $5
+            WHERE id_product=$6 returning *`,[name_product, point_needed_product,hot_inweek_product ,remaining_amount_product,status,id_product],function(err,data){
+                if(err) throw err;
+                response.status(200).send({
+                    success: true,
+                    data : data.rows[0]
+                })
+            })
+        }
     }
+    
 }
 
 const getProducts = (request, response) => {

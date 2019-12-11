@@ -29,8 +29,7 @@ const createCustomer = (request, response) => {
 };
 const loginCustomer = (request,response) => {
     const {email_customer,password_customer} = request.body;
-    pool.query('SELECT password_customer AS cnt FROM customers WHERE email_customer = $1',[email_customer],function(err,data){
-        console.log(data)
+    pool.query('SELECT *  FROM customers WHERE email_customer = $1',[email_customer],function(err,data){
         if(data.rowCount === 0){
             return(
                 response.status(500).send({
@@ -38,26 +37,27 @@ const loginCustomer = (request,response) => {
                 })
             )     
         } else{
-            const hash_password = data.rows[0].cnt;
+            const hash_password = data.rows[0].password_customer;
             if(hash_password){
                 bcrypt.compare(password_customer,hash_password,function(err,res){
                     if(res === false) {
                         response.status(500).send({
-                            success : false
+                            success : false,
                         })
                     }else{
-                            var token = jwt.sign({ foo: email_customer+password_customer }, process.env.SECRET)                      
+                            var token = jwt.sign({ foo: email_customer+password_customer }, process.env.SECRET)
                             if(err) return response.status(400).send(err);
                             response.cookie('w_auth',token)
                             response.status(200).send({
                                 success : true,
-                                token : token
+                                token : token,
+                                data : data.rows[0]
                         })
                     }
                 })
             }
         }
-    });   
+    });     
 };
 
 const getCustomers = (request, response) => {

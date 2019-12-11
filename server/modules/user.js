@@ -59,6 +59,7 @@ const loginUser = (request,response) => {
     });   
 };
 
+
 const getUsers = (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id_user ASC', (error, results) => {
       if (error) {
@@ -77,12 +78,48 @@ const getUserByIDUser = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
-
-
-
+const updateUser = (request,response) => {
+    const {name, email,sdt , id_user,role,status} = request.body;
+    if(Object.keys(request.body).length < 5){
+        response.status(400).send({
+            errorCode : 'Some field is missing'
+        })
+    }else{
+        pool.query(`UPDATE users
+        SET name= $1,email=$2,sdt=$3,role= $4,status = $5
+        WHERE id_user=$6 returning *`,[name, email,sdt ,role,status,id_user],function(err,data){
+            if(err) throw err;
+            response.status(200).send({
+                success: true,
+                data : data.rows[0]
+            })
+        })
+    }
+}
+// const findByToken = function(token,cb){
+//     var user =this;
+//     jwt.verify(token,process.env.SECRET,function(err,decode){
+//         user.findOne({"id_user":decode,"token" : token},function(err,user){
+//             if(err) return cb(err);
+//             cb(null,user)
+//         })
+//     })
+// }
+const deleteUser = (request,response) => {
+    const {id_user} = request.body;
+    pool.query('DELETE FROM users WHERE id_user = $1',[id_user],function(err,data){
+        if(err) throw err;
+        response.status(200).send({
+            success: true,
+        })
+    });     
+};
 module.exports = { 
+    // findByToken,
     createUser,
     getUsers,
     loginUser,
-    getUserByIDUser
+    getUserByIDUser,
+    updateUser,
+    deleteUser
 }
