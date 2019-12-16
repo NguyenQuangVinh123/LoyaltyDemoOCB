@@ -1,8 +1,8 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import { getUserData } from '../../../store/reducers/applicationReducer';
 import { connect } from 'react-redux';
-
+import {get} from 'lodash'
 class Sidebar extends React.Component {
     constructor(props){
         super(props);
@@ -29,9 +29,9 @@ class Sidebar extends React.Component {
                             
                             </li>
                             {
-                                this.props.userData.role&&this.props.userData.role === '0' ? <li className="nav-item">
+                                get(this.props,'userData.role',null) === '0' ? <li className="nav-item">
                                     <Link className="nav-link" to='/user'><i className="nav-icon icon-drop"></i>Quản lý tài khoản</Link>
-                                </li> : null
+                                </li> : <Redirect to= '/login' />
                             }
                             
                     </ul>

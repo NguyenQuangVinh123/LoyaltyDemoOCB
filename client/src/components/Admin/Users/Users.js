@@ -5,6 +5,7 @@ import axios from 'axios'
 import Header from '../Header/Header.component'
 import Sidebar from '../SideBar/Sidebar';
 import EditUser from '../EditUser/EditUser'
+import configs from '../../../config/config';
 class User extends Component {
     constructor(props){
         super(props);
@@ -23,14 +24,14 @@ class User extends Component {
       this.refreshPage()
     }
     refreshPage() {
-      axios.get('/api/users')
+      axios.get(`${configs.serverUrl}/api/users`)
       .then(response =>{
            this.setState({userDetails : response.data.data})
       })
     }
     deleteUser(id){
       window.confirm('Bạn có thực sự muốn xoá tài khoản này ?')
-      axios.post('/api/users/delete',{
+      axios.post(`${configs.serverUrl}/api/users/delete`,{
         "id_user" : id
       }).then(
         this.refreshPage()

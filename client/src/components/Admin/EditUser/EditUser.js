@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from 'react-modal'
 import axios from 'axios'
+import configs from '../../../config/config';
 const customStyles = {
   content : {
     top                   : '50%',
@@ -38,7 +39,7 @@ class EditUser extends React.Component{
    
       editUser(e){
         e.preventDefault();
-        axios.post('/api/users/update',{
+        axios.post(`${configs.serverUrl}/api/users/update`,{
             'name': this.state.name,
             'id_user': this.props.id_user,
             'email' :    this.state.email,

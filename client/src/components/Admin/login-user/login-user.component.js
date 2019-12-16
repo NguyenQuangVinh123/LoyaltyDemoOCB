@@ -26,7 +26,6 @@ class Login extends Component {
           email,
           password,
           onSuccess : (response) =>{
-            console.log(response)
             // console.log(this.props)
             this.props.history.push('/dashboard')
           }
@@ -56,7 +55,6 @@ class Login extends Component {
     }
   render() {
       
-      console.log(this.state.email)
     return (
       <div className="app flex-row align-items-center">
         <Container>

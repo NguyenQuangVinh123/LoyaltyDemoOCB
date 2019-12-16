@@ -8,35 +8,29 @@ class HotProducts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listArray: this.props.listArray,
     };
   
   }
- 
-
   render() {
-    var arr = [];
     var indexd = null
-    this.props.listArray && this.props.listArray.map(value => {
-      if (value.hot_inweek_product === "1") {
-        arr.push(value);
-      }
-    });
+   
+    const {listArray} = this.props
+    console.log(listArray)
     return (
-      
-        arr && arr.map((e,i) =>{
-          var test = true;
+
+      listArray && listArray.map((e,i) =>{
+          var opatity = true;
         
           if(indexd === null &&  i === 4){
             indexd = 5;
-            test = false
+            opatity = false
           }else if(indexd !== null && i === indexd + 3){
             indexd = indexd + 4;
-            test = false
+            opatity = false
           }
 
           return <div
-          style={{opacity: test ? 1 : 0.5}}
+          style={{opacity: opatity ? 1 : 0.5}}
           
           key={e.id_product}
           onClick = {()=>this.props.showDetail(e)}

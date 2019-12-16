@@ -1,7 +1,10 @@
 import React from 'react'
 import Modal from 'react-modal'
 import axios from 'axios'
-
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
+import configs from '../../../config/config';
+import moment from 'moment';
 const customStyles = {
   content : {
     top                   : '50%',
@@ -27,13 +30,20 @@ class EditProduct extends React.Component{
             image: this.props.image,
             remaining_amount_product : this.props.remaining_amount_product,
             status : this.props.status,
-            images : null
+            images : null,
+            dateto : this.props.dateto === null ? new Date() : new Date(parseInt(this.props.dateto)),
+            datefrom :  this.props.datefrom === null ? new Date() : new Date(parseInt(this.props.datefrom)),
+            description : this.props.description
 
         }
         this.afterOpenModal = this.afterOpenModal.bind(this)
         this.changeHandelImage = this.changeHandelImage.bind(this)
         this.editProduct = this.editProduct.bind(this)
         this.onChangeHandle = this.onChangeHandle.bind(this)
+        this.handleChangeDateTo = this.handleChangeDateTo.bind(this)
+        this.handleChangeDateForm = this.handleChangeDateForm.bind(this)
+
+        
     }
     afterOpenModal() {
         // references are now sync'd and can be accessed.
@@ -62,11 +72,15 @@ class EditProduct extends React.Component{
 
       editProduct(e){
         e.preventDefault();
+         
         const formData = new FormData();
         formData.append('name_product', this.state.name_product );
         formData.append('id_product',this.props.id_product);
         formData.append('point_needed_product',   this.state.point_needed_product);
         formData.append('hot_inweek_product', this.state.hot_inweek_product);
+        formData.append('dateto', this.state.dateto);
+        formData.append('datefrom', this.state.datefrom);
+        formData.append('description', this.state.description);
         if(this.state.images === null){
             formData.append('changeImage', false )
         }else{
@@ -81,7 +95,7 @@ class EditProduct extends React.Component{
               'content-type': 'multipart/form-data'
           }
         };
-        axios.post('/api/product/update',formData,config)
+        axios.post(`${configs.serverUrl}/api/product/update`,formData,config)
         .then(response =>{
             
           alert('Ban da sua san pham thanh cong')
@@ -91,14 +105,29 @@ class EditProduct extends React.Component{
         })
       }
     onChangeHandle({name_product = this.state.name_product,point_needed_product = this.state.point_needed_product,status = this.state.status,
-        hot_inweek_product = this.state.hot_inweek_product ,remaining_amount_product = this.state.remaining_amount_product,image = this.state.image}){
+        hot_inweek_product = this.state.hot_inweek_product ,remaining_amount_product = this.state.remaining_amount_product,description = this.state.description,
+        image = this.state.image}){
         this.setState({
-            name_product,point_needed_product,hot_inweek_product,remaining_amount_product,status,image
+            name_product,point_needed_product,hot_inweek_product,remaining_amount_product,status,image,description
         })
         
     }
-   
+    handleChangeDateTo = date => {
+        this.setState({
+            dateto: Date.parse(date)
+        });
+      };
+      handleChangeDateForm = date => {
+        this.setState({
+            datefrom: Date.parse(date)
+        });
+      };
     render(){
+        // var a = this.state.dateTo&&this.state.dateTo
+        // var b = a&&a.toString().slice(-30,12)
+        // console.log(a)
+        // console.log(b)
+        console.log(this.state.dateto)
         return(
             <div>
             <Modal
@@ -125,6 +154,33 @@ class EditProduct extends React.Component{
                     <input type='number' value={this.state.point_needed_product} onChange={(e) => this.onChangeHandle({point_needed_product:e.target.value})} />
                     </div>
                 </div>
+                <div className='col-lg-12 row' style={{marginTop:'20px'}}>
+                    <div className='col-lg-4'>
+                        <span style={{fontWeight:'bold',fontSize:'15px'}}>Ngày bắt đầu có hiệu lực:</span>
+                    </div>
+                    <div className='col-lg-8'>
+                        <DatePicker selected={this.state.dateto} dateFormat="dd/MM/yyyy" onChange={this.handleChangeDateTo} />
+                    </div>
+                </div>
+
+                <div className='col-lg-12 row' style={{marginTop:'20px'}}>
+                    <div className='col-lg-4'>
+                        <span style={{fontWeight:'bold',fontSize:'15px'}}>Ngày kết thúc hiệu lực:</span>
+                    </div>
+                    <div className='col-lg-8'>
+                        <DatePicker selected={this.state.datefrom} dateFormat="dd/MM/yyyy" onChange={this.handleChangeDateForm} />
+                    </div>
+                </div>
+                <div className='col-lg-12 row' style={{marginTop:'20px'}}>
+                    <div className='col-lg-4'>
+                        <span style={{fontWeight:'bold',fontSize:'15px'}}>Mô tả : </span>
+                    </div>
+                    <div className='col-lg-8'>
+                        <textarea cols='7' rows="6" onChange={(e) => this.onChangeHandle({description:e.target.value})} >{this.state.description}</textarea>
+                    </div>
+                </div>
+
+
                 <div className='col-lg-12 row' style={{marginTop:'20px'}}>
                     <div className='col-lg-4'>
                         <span style={{fontWeight:'bold',fontSize:'15px'}}>Sản phẩm còn lại</span>
@@ -168,7 +224,7 @@ class EditProduct extends React.Component{
                         <input type='file' onChange={this.changeHandelImage} id ='file-input' style={{visibility: 'none',width:'0',height:'0'}}/>
                     </div>
                 </div>
-
+                
                 <div style={{display:'flex',justifyContent:'center',marginTop:'20px'}}>
                     <button style={{marginRight:'20px'}} onClick={this.editProduct}>Update</button>
 

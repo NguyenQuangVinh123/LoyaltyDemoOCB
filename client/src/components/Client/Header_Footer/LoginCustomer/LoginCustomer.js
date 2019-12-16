@@ -61,10 +61,10 @@ class LoginCustomer extends React.Component{
                     <div className="col-lg-7 col-md-7 col-xs-8">
                         <div className="row col-lg-12 col-md-12 scroll-login">
                             <div className="col-lg-6 col-md-5 cool-link active">
-                                <p   id="login-form-link">Đăng nhập</p>
+                                <a   id="login-form-link">Đăng nhập</a>
                             </div>
                             <div className="col-lg-6 col-md-7 cool-link">
-                                <p  id="register-form-link">Quên mật khẩu</p>
+                                <a  id="register-form-link">Quên mật khẩu</a>
                             </div>
                         </div>
                         <div className="error">
@@ -73,7 +73,7 @@ class LoginCustomer extends React.Component{
                             </p>
                         </div>
                         <div>
-                        <form>
+                       
                             <div className="form-group row">
                                 <label htmlFor="staticEmail" style={{paddingRight: "0",fontSize: "12pt",fontWeight: "500"}} className="col-sm-3 col-form-label">Tên đăng nhập</label>
                                 <div className="col-sm-9" style={{padding :"0"}}>
@@ -90,7 +90,7 @@ class LoginCustomer extends React.Component{
                                 <button  onClick={this.loginABCXYZ} className="btn btn-login">ĐĂNG NHẬP</button>
                             </div>
                             <div className="forgot-pass-mobile" ><a href="#">Quên mật khẩu?</a></div>
-                        </form>
+                       
                     </div>
                     </div>
                   

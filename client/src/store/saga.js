@@ -84,14 +84,19 @@ function* callAPI(action) {
          if (action.payload.onError) {
             yield action.payload.onError(response);
          }
-         yield onRequestFailed(action, get(response, 'data.error.details', get(response, 'data.message', '')));
+         if(response.errorCode === 3){
+            yield onRequestFailed(action, 'Số điểm của bạn không đủ để đổi quà');
+
+         }
       }
    } catch (e) {
       if (action.payload.onError) {
          yield action.payload.onError(e);
       }
-      yield onRequestFailed(action, `${e.message} ${action.type}`);
+     
+         yield onRequestFailed(action, 'Số điểm của bạn không đủ để đổi quà');
    }
+   
 }
 
 // Logout Customer
@@ -133,7 +138,7 @@ function* mySaga() {
     yield takeLatest(ActionTypes.LOGIN_CUSTOMER, loginCustomer);
     yield takeLatest(ActionTypes.GET_HOT_PRODUCT, callAPI);
     yield takeLatest(ActionTypes.TRANSACTION, callAPI);
-    yield takeLatest(ActionTypes.CLEAR_USER_DATA, logOut);
+   //  yield takeLatest(ActionTypes.CLEAR_USER_DATA, logOut);
 
 }
 

@@ -53,6 +53,7 @@ class HotProduct extends React.Component{
             count : 1,
             test : 0 ,
             showDetailsItem : null,
+            totalpage: null,
         }
         this.goNext = this.goNext.bind(this)
         this.goPrev = this.goPrev.bind(this)
@@ -68,12 +69,18 @@ class HotProduct extends React.Component{
             if (this.state.swiper !== null) {
 
               this.state.swiper.slideNext();
-              document.getElementsByClassName("swiper-slide-active")[0].style.opacity = '1'
-              if(this.state.count < Math.round(this.props.listArray.length / 5) ){
+              
+                document.getElementsByClassName("swiper-slide-active")[0].style.opacity = '1'
+             
+              if(this.state.count < Math.round(this.props.listArray.length / 4) && window.innerWidth >1000 ){
                 this.setState({
                   count : this.state.count + 1
                 })
-              }  
+              } else if(this.state.count < Math.round(this.props.listArray.length / 2)){
+                this.setState({
+                  count : this.state.count + 1
+                })
+              } 
             }
            
 
@@ -93,7 +100,6 @@ class HotProduct extends React.Component{
         // var test = $("#swiper-wrapper1 > .swiper-slide-visible").last();
         // test.addClass('highlight')
         this.refresh()
-        console.log('HotPRoduct')
        
        }
        refresh(){
@@ -105,7 +111,7 @@ class HotProduct extends React.Component{
         goPrev() {
 
             if (this.state.swiper !== null) {
-              
+
                 if(this.state.count > 1){
                   document.getElementsByClassName("swiper-slide-active")[0].style.opacity = '0.5'
 
@@ -115,7 +121,7 @@ class HotProduct extends React.Component{
                   })
                 }
              
-              }
+            }
             
           }
         //   function changeisBegin(){
@@ -133,13 +139,20 @@ class HotProduct extends React.Component{
         //         isBeginning(false)
         //     }
         // }
-       
+   
         render(){
             // const {updateSwiper} = this.state;
             const {count,showDetailsItem} = this.state
-            const totalPage  = Math.round(this.props.listArray.length / 5) 
-            
-            // console.log(test)
+            let totalPage  = Math.round(this.props.listArray.length / 4) 
+            if(window.innerWidth < 400){
+              totalPage = Math.round(this.props.listArray.length / 2) 
+            }
+            if(this.props.listArray.length > 5 && this.props.listArray.length< 10){
+              totalPage = totalPage + 1
+            }
+
+
+            console.log(totalPage)
             return (
                 
                 <div className="content-hot-items">
@@ -165,7 +178,7 @@ class HotProduct extends React.Component{
                         <div className="swiper-container swiper1">
                             <div className="swiper-wrapper" id="swiper-wrapper1">
                             <Swiper  {...params}  getSwiper={swiper => this.setState ({swiper}) }>
-                                <HotProducts itemsPerView ={itemsPerView} showDetail= {this.showDetail} listArray = {this.props.listArray} />
+                                <HotProducts  itemsPerView ={itemsPerView} showDetail= {this.showDetail} listArray = {this.props.listArray} />
                            </Swiper>
                            {
                                

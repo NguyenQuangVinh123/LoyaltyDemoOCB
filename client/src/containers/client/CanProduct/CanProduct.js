@@ -72,16 +72,15 @@ class CanProduct extends React.Component{
         goNext(){
             if (this.state.swiper !== null) {
                 this.state.swiper.slideNext();
-                if(this.state.count < Math.round(this.props.listArray.length / 5) ){
+                document.getElementsByClassName("swiper-slide-active")[1].style.opacity = '1'
+                if(this.state.count < Math.round(this.props.listArray.length / 4) ){
                     this.setState({
                       count : this.state.count + 1
                     })
                   }  
               
             }
-            // this.setState({
-            //     count : this.state.count + 1
-            // })
+      
 
         }
 
@@ -117,8 +116,10 @@ class CanProduct extends React.Component{
         
         goPrev() {
             if (this.state.swiper !== null) {
-                this.state.swiper.slidePrev();
                 if(this.state.count > 1){
+                    document.getElementsByClassName("swiper-slide-active")[1].style.opacity = '0.5'
+                    this.state.swiper.slidePrev();
+
                     this.setState({
                       count : this.state.count -1
                     })
@@ -145,8 +146,10 @@ class CanProduct extends React.Component{
         render(){
             // const {updateSwiper} = this.state;
             const {count,checkCondition,showDetailsItem} = this.state
-            const totalPage = Math.round(this.props.listArray.length / 5)
-
+            let totalPage = Math.round(this.props.listArray.length / 4)
+            if(this.props.listArray.length > 5 && this.props.listArray.length< 10){
+                totalPage = totalPage + 1
+              }
             return (
                 
                 <div className="content-hot-items">

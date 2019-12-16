@@ -5,6 +5,8 @@ import axios from 'axios'
 import Header from '../Header/Header.component'
 import Sidebar from '../SideBar/Sidebar';
 import EditProduct from '../EditProduct/EditProduct'
+import configs from '../../../config/config';
+import moment from 'moment'
 class Product extends Component {
     constructor(props){
         super(props);
@@ -23,13 +25,13 @@ class Product extends Component {
         this.refreshPage()
     }
     refreshPage(){
-      axios.get('/api/products')
+      axios.get(`${configs.serverUrl}/api/products`)
       .then(response =>{
            this.setState({productDetails : response.data.data})
       })
     }
     deleteProduct(id){
-      axios.post('/api/product/delete',{
+      axios.post(`${configs.serverUrl}/api/product/delete`,{
         "id_product" : id
       }).then(
         this.refreshPage()
@@ -50,16 +52,43 @@ class Product extends Component {
   render() {
     // const userList = usersData.filter((user) => user.id < 10)
     const {productDetails} = this.state;
+  
+
     const products = productDetails.map((value, key) => {
+      var dateto;
+      var formatdateTo;
+      var datefrom;
+      var formatdateFrom;
+      if(value.dateto === null){
+        var aTo = new Date();
+        formatdateTo = moment(aTo).format('DD/MM/YYYY')
+        
+      }else{
+        dateto = new Date(parseInt(value.dateto));
+        formatdateTo = moment(dateto).format('DD/MM/YYYY')
+      }
+      if(value.datefrom === null){
+        var bTo = new Date();
+        formatdateFrom = moment(bTo).format('DD/MM/YYYY')
+
+      }else{
+        datefrom = new Date(parseInt(value.datefrom));
+        formatdateFrom = moment(datefrom).format('DD/MM/YYYY')
+      }
+      
+      
+        
         return(
             <tr key={key}>
 
             <td><strong>{value.id_product}</strong></td>
             <td><strong>{value.name_product}</strong></td>
-
             <td><strong>{value.point_needed_product}</strong></td>
             <td><strong>{value.hot_inweek_product}</strong></td>
             <td><strong>{value.remaining_amount_product}</strong></td>
+            <td><strong>{formatdateTo }</strong></td>
+            <td><strong>{ formatdateFrom}</strong></td>
+            <td><strong>{value.description}</strong></td>
             <td><img alt='' src={value.image} height='50px' width='50px'/></td>
             <td><button onClick={() => this.editProduct(value)}>Sửa</button></td>
             <td><button onClick={() => this.deleteProduct(value.id_product)}>Xoá</button></td>
@@ -98,6 +127,9 @@ class Product extends Component {
                       <th scope="col">Điểm cần đổi</th>
                       <th scope="col">Sản phẩm hot trong tuần</th>
                       <th scope="col">Số lượng sản phẩm còn lại</th>
+                      <th scope="col">Từ ngày</th>
+                      <th scope="col">Đến ngày</th>
+                      <th scope="col">Nội dung</th>
                       <th scope="col">Hình ảnh sản phẩm</th>
                       <th scope="col">Công cụ</th>
                     </tr>

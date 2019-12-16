@@ -3,6 +3,7 @@ import {  Card, CardHeader, Col, Row } from 'reactstrap';
 import axios from 'axios'
 import Header from '../Header/Header.component'
 import Sidebar from '../SideBar/Sidebar';
+import configs from '../../../config/config';
 
 
 class AddUser extends Component {
@@ -24,7 +25,7 @@ class AddUser extends Component {
     addUser(e){
         e.preventDefault();
         
-        axios.post('/api/users/register',{
+        axios.post(`${configs.serverUrl}/api/users/register`,{
             "name": this.state.name,
             "email": this.state.email,
             "sdt": this.state.sdt,

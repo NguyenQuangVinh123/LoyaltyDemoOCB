@@ -33,8 +33,8 @@ class LoginLayout extends React.Component {
     
   }
   logOut (){
-    var a = 1;
-    clearUserData && clearUserData()
+    
+    this.props.clearUserData && this.props.clearUserData()
     console.log(this.props.customerData)
     // alert('Bạn đã đăng xuất thành công')
    
@@ -64,13 +64,13 @@ class LoginLayout extends React.Component {
                     width="20px"
                     height="22px"
                   />
-                  <p
+                  <a
                     style={{ padding: "0.5rem !important" }}
                     className="nav-link "
                     onClick = {this.logOut}
                   >
                     Đăng xuất
-                  </p>
+                  </a>
             </div>
           </div>
         ) : (
@@ -80,13 +80,13 @@ class LoginLayout extends React.Component {
               width="20px"
               height="22px"
             />
-            <p
+            <a
               style={{ padding: "0.5rem !important" }}
               className="nav-link"
               onClick={this.openLoginModal}
             >
               Đăng nhập
-            </p>
+            </a>
             {
               openLoginModal === true ? 
               <Modal
