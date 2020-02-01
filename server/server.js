@@ -35,14 +35,6 @@ app.use(cookieParser());
 app.get('/', (request, response) => {
     response.json({ info: 'Node.js, Express, and Postgres API' })
 })
-/////USERS
-
-// app.get('/api/users/auth',auth,(req,res)=>{
-//     res.status(200).json({
-//         user : req.user
-//     })
-// })
-
 app.post('/api/users/register',createUser)
 app.post('/api/users/login',loginUser)
 app.get('/api/users',getUsers)

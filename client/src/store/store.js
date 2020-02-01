@@ -1,5 +1,4 @@
 
-
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import saga from './saga';
@@ -28,14 +27,9 @@ const configureStore = () => {
     {},
     compose(
         composeWithDevTools(
-            
-            applyMiddleware(routerMiddleware(history),sagaMiddleware)
-            
-        )
-    )
-    
+            applyMiddleware(routerMiddleware(history),sagaMiddleware)  
+        ))
   );
-
   // Then run the saga
   sagaMiddleware.run(saga);
 

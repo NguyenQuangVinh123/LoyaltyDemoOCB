@@ -8,9 +8,6 @@ import {BrowserRouter} from 'react-router-dom'
 import configureStore,{history} from './store/store';
 import { ConnectedRouter } from 'connected-react-router'
 
-// import reducer from './redux/reducers/reducer'
-// const store =  createStore(reducer);
-
 export const store = configureStore();
 ReactDOM.render(
     <Provider store={store}>
