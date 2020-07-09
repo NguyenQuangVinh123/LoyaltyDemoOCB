@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, BrowserRouter } from 'react-router-dom';
  
 // Pages
 const Login = React.lazy(() => import('../../components/Admin/login-user/login-user.component.js'));
@@ -16,7 +16,7 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 class AdminPage extends Component{
     render(){
         return(
-            <HashRouter>
+            <BrowserRouter basename='/admin'>
                 <React.Suspense fallback={loading()}>
                 <Switch>
                     <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
