@@ -29,6 +29,6 @@
     "pg-format": "^1.0.4",
     "pg-promise": "^10.2.1",
     "react-id-swiper": "^2.4.0",
-    "swiper": "^5.2.1"
+    "swiper": "^6.5.1"
   }
 }
