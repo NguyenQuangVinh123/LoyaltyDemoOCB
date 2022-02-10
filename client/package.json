@@ -21,7 +21,7 @@
     "http-proxy-middleware": "^0.20.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "npm": "^6.13.1",
     "ra-data-simple-rest": "^3.0.0",
     "react": "^16.12.0",
